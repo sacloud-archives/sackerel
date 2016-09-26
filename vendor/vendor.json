@@ -1,0 +1,55 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "Lf3uUXTkKK5DJ37BxQvxO1Fq+K8=",
+			"origin": "github.com/stretchr/testify/vendor/github.com/davecgh/go-spew/spew",
+			"path": "github.com/davecgh/go-spew/spew",
+			"revision": "6d212800a42e8ab5c146b8ace3490ee17e5225f9",
+			"revisionTime": "2016-09-07T16:21:46Z"
+		},
+		{
+			"checksumSHA1": "mBaHKsGL3Tv1jxtmQ5xxoqiZ7lE=",
+			"path": "github.com/mackerelio/mackerel-client-go",
+			"revision": "068671c5003e93f9aef915ea7da710be2e4b20f5",
+			"revisionTime": "2016-07-08T05:18:08Z"
+		},
+		{
+			"checksumSHA1": "LuFv4/jlrmFNnDb/5SCSEPAM9vU=",
+			"origin": "github.com/stretchr/testify/vendor/github.com/pmezard/go-difflib/difflib",
+			"path": "github.com/pmezard/go-difflib/difflib",
+			"revision": "792786c7400a136282c1664665ae0a8db921c6c2",
+			"revisionTime": "2016-01-10T10:55:54Z"
+		},
+		{
+			"checksumSHA1": "iydUphwYqZRq3WhstEdGsbvBAKs=",
+			"path": "github.com/stretchr/testify/assert",
+			"revision": "d77da356e56a7428ad25149ca77381849a6a5232",
+			"revisionTime": "2016-06-15T09:26:46Z"
+		},
+		{
+			"checksumSHA1": "96OzJEtUsPv6mPll+0wynXvw/Uk=",
+			"path": "github.com/yamamoto-febc/libsacloud/api",
+			"revision": "7701df7dd23907c788962c51f1642671d2d3e4d9",
+			"revisionTime": "2016-09-25T01:00:24Z",
+			"version": "1.0.0",
+			"versionExact": "1.0.0"
+		},
+		{
+			"checksumSHA1": "DcW2a2pSjPu1JZ8E2JcS3mY5cbs=",
+			"path": "github.com/yamamoto-febc/libsacloud/sacloud",
+			"revision": "7701df7dd23907c788962c51f1642671d2d3e4d9",
+			"revisionTime": "2016-09-25T01:00:24Z",
+			"version": "1.0.0",
+			"versionExact": "1.0.0"
+		},
+		{
+			"checksumSHA1": "J1irW4tyCsDzaVDu6olx5fG2Nrs=",
+			"path": "gopkg.in/urfave/cli.v2",
+			"revision": "c72728f42438425ffcd487986936357e17ebba3f",
+			"revisionTime": "2016-08-31T17:44:05Z"
+		}
+	],
+	"rootPath": "github.com/sacloud/sackerel"
+}
