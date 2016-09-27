@@ -24,6 +24,9 @@ var (
 	// DefaultTimerJobInterval タイマージョブのデフォルト起動間隔
 	DefaultTimerJobInterval = 2 * time.Minute
 
+	// DefaultReconcileJobInterval エージェントとの統合処理のデフォルト起動間隔
+	DefaultReconcileJobInterval = 3 * time.Minute
+
 	// DefaultMetricsHistoryPeriod メトリクス収集時の過去分取得範囲デフォルト値
 	DefaultMetricsHistoryPeriod = 15 * time.Minute
 
@@ -32,6 +35,9 @@ var (
 
 	// DefaultIgnoreTag sackerelでの連携対象外を示すマーカータグ名称
 	DefaultIgnoreTag = "@mackerel-ignore"
+
+	// DefaultAgentTag mackerel-agentを手動インストール
+	DefaultAgentTag = "@mackerel-agent"
 )
 
 // Option sackerel動作オプション
@@ -41,6 +47,7 @@ type Option struct {
 	JobQueueBufSize             int
 	ThrottledAPIReqQueueBufSize int
 	TimerJobInterval            time.Duration
+	ReconcileJobInterval        time.Duration
 	MetricsHistoryPeriod        time.Duration
 	APICallInterval             time.Duration
 	HealthCheckWebServerPort    int
@@ -51,6 +58,7 @@ type Option struct {
 	WarnLog                     bool
 	ErrorLog                    bool
 	IgnoreTag                   string
+	AgentTag                    string
 }
 
 // NewOption Optionの新規作成
@@ -59,6 +67,7 @@ func NewOption() *Option {
 		SakuraCloudOption: NewSakuraCloudOption(),
 		MackerelOption:    NewMackerelOption(),
 		IgnoreTag:         DefaultIgnoreTag,
+		AgentTag:          DefaultAgentTag,
 	}
 }
 

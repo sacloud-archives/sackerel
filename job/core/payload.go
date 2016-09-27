@@ -5,6 +5,8 @@ import (
 	mkr "github.com/mackerelio/mackerel-client-go"
 	"github.com/yamamoto-febc/libsacloud/sacloud"
 	"reflect"
+	"strconv"
+	"strings"
 )
 
 //-----------------------------------------------------------------------------
@@ -80,7 +82,7 @@ func (p *CreateHostPayload) GetFindParam() *mkr.FindHostsParam {
 
 	return &mkr.FindHostsParam{
 		CustomIdentifier: mackerelName,
-		Name:             mackerelName,
+		//Name:             mackerelName,
 		Statuses: []string{
 			string(MackerelHostStatusWorking),
 			string(MackerelHostStatusStandby),
@@ -115,4 +117,35 @@ type SacloudMetrics struct {
 	Disk      []*sacloud.MonitorValues
 	Interface []*sacloud.MonitorValues
 	Database  []*sacloud.MonitorValues
+}
+
+//-----------------------------------------------------------------------------
+// ReconcileHostsPayload
+//-----------------------------------------------------------------------------
+
+// ReconcileHostsPayload ホストリコンサイル用ジョブで利用するペイロード
+type ReconcileHostsPayload struct {
+	// FromSackerelHost sackerelが登録したホスト
+	FromSackerelHost *mkr.Host
+	// FromAgentHost mackerel-agentが登録したホスト
+	FromAgentHost *mkr.Host
+}
+
+// GetSacloudServerInfo 対象Mackerelホストからさくらのクラウドリソース情報を取得する
+func (p *ReconcileHostsPayload) GetSacloudServerInfo() (string, int64, error) {
+	tokens := strings.Split(p.FromSackerelHost.Name, "-") // 想定形式:  SakuraCloud-[ゾーン名]-[リソースID]
+	if len(tokens) != 3 {
+		return "", -1, fmt.Errorf("TargetHost.Name is invalid : ['%s']", p.FromSackerelHost.Name)
+	}
+
+	strZone := strings.ToLower(tokens[1])
+	strID := tokens[2]
+
+	// id to int64
+	id, err := strconv.ParseInt(strID, 10, 64)
+	if err != nil {
+		return "", 01, err
+	}
+
+	return strZone, id, nil
 }

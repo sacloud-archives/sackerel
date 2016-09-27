@@ -22,6 +22,7 @@ func NewDispatcher(option *core.Option, queue *core.Queue) *Dispatcher {
 		queue:  queue,
 		timerJobs: []core.TimerJobAPI{
 			timer.DetectResourceTimerJob(option.TimerJobInterval),
+			timer.ReconcileHostTimerJob(option.ReconcileJobInterval),
 		},
 	}
 }

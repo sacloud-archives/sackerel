@@ -21,6 +21,16 @@ func UpdateRoleJob(payload interface{}) core.JobAPI {
 	return core.NewJob("MackerelUpdateRole", updateRole, payload)
 }
 
+// UpdadteCustomIDJob MackerelホストのCustomIdentifier設定用ジョブ
+func UpdadteCustomIDJob(payload interface{}) core.JobAPI {
+	return core.NewJob("MackerelUpdateCustomID", updateCustomID, payload)
+}
+
+// RetireJob Mackerelホストの退役処理用ジョブ
+func RetireJob(payload interface{}) core.JobAPI {
+	return core.NewJob("MackerelRetire", retireHost, payload)
+}
+
 func updateStatus(queue *core.Queue, option *core.Option, job core.JobAPI) {
 
 	var payload = job.GetPayload()
@@ -30,6 +40,10 @@ func updateStatus(queue *core.Queue, option *core.Option, job core.JobAPI) {
 	}
 
 	if sourcePayload, ok := payload.(*core.CreateHostPayload); ok {
+
+		if hasSakuraCloudTag(sourcePayload.SacloudSource, option.AgentTag) {
+			return
+		}
 
 		sourceInfo := sourcePayload.GetSourcePayload()
 
@@ -78,6 +92,10 @@ func updateHost(queue *core.Queue, option *core.Option, job core.JobAPI) {
 	}
 
 	if sourcePayload, ok := payload.(*core.CreateHostPayload); ok {
+
+		if hasSakuraCloudTag(sourcePayload.SacloudSource, option.AgentTag) {
+			return
+		}
 
 		sourceInfo := sourcePayload.GetSourcePayload()
 		if sourceInfo.MackerelID != "" {
@@ -150,6 +168,70 @@ func updateRole(queue *core.Queue, option *core.Option, job core.JobAPI) {
 		queue.PushRequest("mackerel-updated-host", payload)
 	} else {
 		queue.PushWarn(fmt.Errorf("'%s' => payload is invalid type. need [*core.CreateHostPayload]", job.GetName()))
+		return
+	}
+}
+
+func updateCustomID(queue *core.Queue, option *core.Option, job core.JobAPI) {
+	var payload = job.GetPayload()
+	if payload == nil {
+		queue.PushWarn(fmt.Errorf("'%s' => payload is nil", job.GetName()))
+		return
+	}
+
+	if sourcePayload, ok := payload.(*core.ReconcileHostsPayload); ok {
+
+		customID := sourcePayload.FromSackerelHost.Name
+		target := sourcePayload.FromAgentHost
+
+		client := getClient(option)
+		param := &mkr.UpdateHostParam{
+			Name:             target.Name,
+			CustomIdentifier: customID,
+			DisplayName:      target.DisplayName,
+			Interfaces:       target.Interfaces,
+			Meta:             target.Meta,
+			RoleFullnames:    target.GetRoleFullnames(),
+		}
+
+		_, err := client.UpdateHost(target.ID, param)
+		if err != nil {
+			queue.PushError(err)
+			return
+		}
+
+		queue.PushInfo(fmt.Sprintf("CustomIdentifier is updated => MackerelID:[%s] / CustomID:[%s]", target.ID, customID))
+
+		queue.PushRequest("mackerel-updated-custom-id", payload)
+	} else {
+		queue.PushWarn(fmt.Errorf("'%s' => payload is invalid type. need [*core.ReconcileHostsPayload]", job.GetName()))
+		return
+	}
+}
+
+func retireHost(queue *core.Queue, option *core.Option, job core.JobAPI) {
+	var payload = job.GetPayload()
+	if payload == nil {
+		queue.PushWarn(fmt.Errorf("'%s' => payload is nil", job.GetName()))
+		return
+	}
+
+	if sourcePayload, ok := payload.(*core.ReconcileHostsPayload); ok {
+
+		target := sourcePayload.FromSackerelHost
+
+		client := getClient(option)
+		err := client.RetireHost(target.ID)
+		if err != nil {
+			queue.PushError(err)
+			return
+		}
+
+		queue.PushInfo(fmt.Sprintf("Mackerel host is retired => MackerelID:[%s]", target.ID))
+
+		queue.PushRequest("mackerel-retired-host", payload)
+	} else {
+		queue.PushWarn(fmt.Errorf("'%s' => payload is invalid type. need [*core.ReconcileHostsPayload]", job.GetName()))
 		return
 	}
 }

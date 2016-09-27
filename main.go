@@ -59,6 +59,7 @@ VERSION:
 	}
 
 	performanceFlagNames = []string{
+		"reconcile-job-interval",
 		"api-call-interval",
 		"job-queue-size",
 		"throttled-api-request-size",
@@ -177,6 +178,13 @@ func cliFlags(option *core.Option) []cli.Flag {
 			EnvVars:     []string{"SACKEREL_TIMER_JOB_INTERVAL"},
 			Destination: &option.TimerJobInterval,
 			Value:       core.DefaultTimerJobInterval,
+		},
+		&cli.DurationFlag{
+			Name:        "reconcile-job-interval",
+			Usage:       "Interval of each reconcile jobs",
+			EnvVars:     []string{"SACKEREL_RECONCILE_JOB_INTERVAL"},
+			Destination: &option.ReconcileJobInterval,
+			Value:       core.DefaultReconcileJobInterval,
 		},
 		&cli.DurationFlag{
 			Name:        "period",

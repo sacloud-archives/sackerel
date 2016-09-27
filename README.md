@@ -35,6 +35,7 @@ Mackerel上でのホスト/サービス/ロールは自動作成されるため�
   - ホスト/サービス/ロールの登録/更新
   - カスタムグラフ定義
   - メトリクス情報投入
+  - エージェントがインストールされたサーバーとの統合処理
 
 さくらのクラウド上のリソースの種類によって自動でMackerel上にロールが作成されます。
 
@@ -133,6 +134,21 @@ $ docker run -d sacloud/sackerel --token "Your Token" --secret "Your Secret" --a
 
 注: 先頭の文字が`@`で始まるタグ(特殊タグ)は連携されません。
 
+### Mackerelエージェントを併用する
+
+`sackerel`からMackerelへ登録されたサーバーに対し、Mackerelエージェントをインストールすると、
+Mackerelに対し新しいホストとして登録されます。
+
+このままだと、同じサーバーがMackerel上に重複登録されていることになります。
+`sackerel`はこの問題に対し、エージェントとの統合処理を行うことで対応しています。
+
+統合処理は定期的に起動(デフォルトは3分に1回)起動するようになっています。
+
+統合処理が行われると、さくらのクラウド上の該当リソースに対し`@mackerel-agent`タグが付与されます。
+このタグが付与されているサーバーは、Mackerelエージェントの設定を優先するようになります。
+(例：ホストの管理名(DisplayName)など)
+
+
 ### 個別のリソースをMackerelへ連携させたくない場合
 
 さくらのクラウド上で、連携させたくないリソースに対し`@mackerel-ignore`タグを付けておくと連携対象外となります。
@@ -170,6 +186,7 @@ $ sackerel --help
   ************* ADVANCED OPTIONS **************
   
      FOR PERFORMANCE TUNING:
+        --reconcile-job-interval value      Interval of each reconcile jobs (default: 3m0s) [$SACKEREL_RECONCILE_JOB_INTERVAL]
         --api-call-interval value           Time duration of API call interval (default: 500ms) [$SACKEREL_API_CALL_INTERVAL]
         --job-queue-size value              Size of internal job queue (default: 50) [$SACKEREL_JOB_QUEUE_SIZE]
         --throttled-api-request-size value  Size of throttledAPI requst queue (default: 0) [$SACKEREL_THROTTLED_API_REQUST_QUEUE_SIZE]

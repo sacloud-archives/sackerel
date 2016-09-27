@@ -125,3 +125,18 @@ func registMackerelTarget(queue *core.Queue, option *core.Option, job core.JobAP
 	}
 
 }
+
+func hasSakuraCloudTag(target interface{}, targetTag string) bool {
+
+	if tagsType, ok := target.(tagsHolder); ok {
+		if tagsType.HasTag(targetTag) {
+			return true
+		}
+	}
+
+	return false
+}
+
+type tagsHolder interface {
+	HasTag(string) bool
+}
