@@ -7,12 +7,12 @@ import (
 	"time"
 )
 
-// CollectDatabaseMetricsAllJob 過去分含めたルーターメトリクス(cpu/memory/interface/disk)を取得するジョブ
+// CollectDatabaseMetricsAllJob 過去分含めたデータベースメトリクス(cpu/memory/interface/disk)を取得するジョブ
 func CollectDatabaseMetricsAllJob(payload interface{}) core.JobAPI {
 	return core.NewJob("CollectMetricsDatabaseAll", collectDatabaseMetricsAll, payload)
 }
 
-// CollectDatabaseMetricsLatestJob 直近のルーターメトリクス(Interface)を取得するジョブ
+// CollectDatabaseMetricsLatestJob 直近のデータベースメトリクス(Interface)を取得するジョブ
 func CollectDatabaseMetricsLatestJob(payload interface{}) core.JobAPI {
 	return core.NewJob("CollectMetricsDatabaseLatest", collectDatabaseMetricsLatest, payload)
 }
@@ -48,6 +48,11 @@ func collectDatabaseMetricsInner(queue *core.Queue, option *core.Option, job cor
 		}
 	} else {
 		queue.PushWarn(fmt.Errorf("'%s' => payload is invalid type. need [core.SourcePayloadHolder]", job.GetName()))
+		return
+	}
+
+	if sourcePayload.MackerelHostStatus == core.MackerelHostStatusMaintenance {
+		queue.PushWarn(fmt.Errorf("SakuraCloud resource['%d'] is still maintenance state. '%s' is skipped", sourcePayload.SacloudResourceID, job.GetName()))
 		return
 	}
 
