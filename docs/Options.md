@@ -43,7 +43,7 @@ $ saclerel
 |------------------------|----------------------------|---------------------------------|:----------:|-------------------------------|
 | `--zones`              | `--sakuracloud-zones`      | SAKURACLOUD_ZONES               | `is1b,tk1a`| 情報取得対象のゾーン名(複数指定可) |
 | `--interval`           | `--timer-job-interval`     | SACKEREL_TIMER_JOB_INTERVAL     | `2m`(2分)  | 情報収集ジョブの実行間隔     |
-| `--period`             | `--metrics-history-period` | SACKEREL_METRICS-HISTORY-PERIOD | `15m`(15分)| メトリクスの収集範囲<br >/(実行時からどれだけ遡って取得するか) |
+| `--period`             | `--metrics-history-period` | SACKEREL_METRICS_HISTORY_PERIOD | `15m`(15分)| メトリクスの収集範囲<br >/(実行時からどれだけ遡って取得するか) |
 | `--port`               | `--healthcheck-port`       | SACKEREL_HEALTHCHECK_PORT       | `39700`    | ヘルスチェック用Webサーバーのポート番号 |
 | `--disable-healthcheck`| -                          | SACKEREL_DISABLE_HEALTHCHECK    | `false`    | ヘルスチェックの無効化 |
 | `--skip-init`          | -                          | SACKEREL_SKIP_INIT              | `false`    | 起動時の初期化処理(グラフ定義など)の無効化 |
