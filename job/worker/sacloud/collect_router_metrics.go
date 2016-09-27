@@ -51,6 +51,11 @@ func collectRouterMetricsInner(queue *core.Queue, option *core.Option, job core.
 		return
 	}
 
+	if sourcePayload.MackerelHostStatus == core.MackerelHostStatusMaintenance {
+		queue.PushWarn(fmt.Errorf("SakuraCloud resource['%d'] is still maintenance state. '%s' is skipped", sourcePayload.SacloudResourceID, job.GetName()))
+		return
+	}
+
 	// Create the collect-metrics payload
 	metricsPayload := core.NewCollectMetricsPayload(sourcePayload)
 	client := getClient(option, sourcePayload.SacloudZone)

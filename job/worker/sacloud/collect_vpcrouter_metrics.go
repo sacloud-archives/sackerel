@@ -7,12 +7,12 @@ import (
 	"time"
 )
 
-// CollectVPCRouterMetricsAllJob 過去分含めたルーターメトリクス(Interface)を取得するジョブ
+// CollectVPCRouterMetricsAllJob 過去分含めたVPCルーターメトリクス(Interface)を取得するジョブ
 func CollectVPCRouterMetricsAllJob(payload interface{}) core.JobAPI {
 	return core.NewJob("CollectMetricsVPCRouterAll", collectVPCRouterMetricsAll, payload)
 }
 
-// CollectVPCRouterMetricsLatestJob 直近のルーターメトリクス(Interface)を取得するジョブ
+// CollectVPCRouterMetricsLatestJob 直近のVPCルーターメトリクス(Interface)を取得するジョブ
 func CollectVPCRouterMetricsLatestJob(payload interface{}) core.JobAPI {
 	return core.NewJob("CollectMetricsVPCRouterLatest", collectVPCRouterMetricsLatest, payload)
 }
@@ -49,6 +49,11 @@ func collectVPCRouterMetricsInner(queue *core.Queue, option *core.Option, job co
 		}
 	} else {
 		queue.PushWarn(fmt.Errorf("'%s' => payload is invalid type. need [core.SourcePayloadHolder]", job.GetName()))
+		return
+	}
+
+	if sourcePayload.MackerelHostStatus == core.MackerelHostStatusMaintenance {
+		queue.PushWarn(fmt.Errorf("SakuraCloud resource['%d'] is still maintenance state. '%s' is skipped", sourcePayload.SacloudResourceID, job.GetName()))
 		return
 	}
 
