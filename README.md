@@ -160,7 +160,7 @@ $ sackerel --help
   OPTIONS:
      --zones value, --sakuracloud-zones value        Target zone list of SakuraCloud (default: "is1b", "tk1a") [$SAKURACLOUD_ZONES]
      --interval value, --timer-job-interval value    Interval of each timer jobs (default: 2m0s) [$SACKEREL_TIMER_JOB_INTERVAL]
-     --period value, --metrics-history-period value  Period of collecting metrics history (default: 15m0s) [$SACKEREL_METRICS-HISTORY-PERIOD]
+     --period value, --metrics-history-period value  Period of collecting metrics history (default: 15m0s) [$SACKEREL_METRICS_HISTORY_PERIOD]
      --port value, --healthcheck-port value          Number of web server port for healthcheck (default: 39700) [$SACKEREL_HEALTHCHECK_PORT]
      --disable-healthcheck                           Flag of disable health check web server (default: false) [$SACKEREL_DISABLE_HEALTHCHECK]
      --skip-init                                     Flag of skip init job (default: false) [$SACKEREL_SKIP_INIT]
