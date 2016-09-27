@@ -22,5 +22,4 @@ docker run -d \
   -e SACKEREL_INFO_LOG \
   -e SACKEREL_WARN_LOG \
   -e SACKEREL_ERROR_LOG \
-  -e GODEBUG="http2client=0" \
   sackerel:latest $@

@@ -17,12 +17,10 @@ func TestCreateHostPayload_GetFindParam(t *testing.T) {
 	// セットするもの/しないもの
 	assert.NotEmpty(t, p.CustomIdentifier)
 	assert.NotEmpty(t, p.Statuses)
-	assert.NotEmpty(t, p.Name)
 	assert.Empty(t, p.Roles)
 	assert.Empty(t, p.Service)
 
 	// セットする値
-	assert.Equal(t, p.Name, mackerelName)
 	assert.Equal(t, p.CustomIdentifier, mackerelName)
 	assert.Len(t, p.Statuses, 4) // mackerel側で取り得るステータス全て
 }
@@ -131,5 +129,32 @@ func TestCreateHostPayload_IsStatusUpdated(t *testing.T) {
 	assert.True(t, res)
 	assert.NoError(t, err)
 	err = nil
+
+}
+
+func TestGetSacloudServerInfo(t *testing.T) {
+
+	p := &ReconcileHostsPayload{
+		FromSackerelHost: &mkr.Host{
+			Name: "",
+		},
+	}
+
+	// Name is empty : error
+	zone, id, err := p.GetSacloudServerInfo()
+	assert.Error(t, err)
+
+	// ID is need can convert to int64 : err
+	p.FromSackerelHost.Name = "SakuraCloud-tk1a-aaaaaaaaaaaa"
+	zone, id, err = p.GetSacloudServerInfo()
+	assert.Error(t, err)
+
+	// Name is valid
+	p.FromSackerelHost.Name = "SakuraCloud-tk1a-123456789012"
+	zone, id, err = p.GetSacloudServerInfo()
+	assert.NoError(t, err)
+	assert.Equal(t, zone, "tk1a")
+	var parsedID int64 = 123456789012
+	assert.Equal(t, id, parsedID)
 
 }

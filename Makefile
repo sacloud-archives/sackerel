@@ -5,7 +5,7 @@ GOFMT_FILES?=$$(find . -name '*.go' | grep -v vendor)
 default: test vet
 
 run:
-	GODEBUG="http2client=0" go run $(CURDIR)/main.go --disable-healthcheck $(ARGS)
+	go run $(CURDIR)/main.go --disable-healthcheck $(ARGS)
 
 clean:
 	rm -Rf $(CURDIR)/bin/*

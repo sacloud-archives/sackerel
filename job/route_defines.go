@@ -152,6 +152,18 @@ func (r *Router) buildRouteDefines() {
 		"exchange-metrics": _ExchangeRequest(exchange.MetricsJob),
 		"post-metrics":     _MackerelAPIRequest(mackerel.PostMetricsJob),
 		"posted-metrics":   _EndOfRoute,
+
+		//--------------------
+		// reconcile hosts
+		//--------------------
+		"reconcile-all":              _MackerelAPIRequest(mackerel.ReconcileByMACAddressJob),
+		"reconcile-host":             _Parallel([]string{"add-agent-tag", "mackerel-retire-host"}),
+		"add-agent-tag":              _SakuraAPIRequest(sacloud.AddAgentTagJob),
+		"added-agent-tag":            _EndOfRoute,
+		"mackerel-retire-host":       _ThrottledAPIRequest(mackerel.RetireJob),
+		"mackerel-retired-host":      _PathThrough("mackerel-update-custom-id"),
+		"mackerel-update-custom-id":  _ThrottledAPIRequest(mackerel.UpdadteCustomIDJob),
+		"mackerel-updated-custom-id": _EndOfRoute,
 	}
 }
 

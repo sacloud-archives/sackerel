@@ -57,12 +57,13 @@ $ saclerel
 
 |名称                            | エイリアス | 環境変数                                  | デフォルト値 | 説明                                 |
 |--------------------------------|----------|------------------------------------------|:----------:|--------------------------------------|
+| `--reconcile-job-interval`     | -        | SACKEREL_RECONCILE_JOB_INTERVAL          | `3m`(3分)  | Mackerelエージェントとの統合処理の起動間隔 |
 | `--api-call-interval`          | -        | SACKEREL_API_CALL_INTERVAL               | `500ms`    | スロットリング対象APIの待機時間          |
 | `--job-queue-size`             | -        | SACKEREL_JOB_QUEUE_SIZE                  | `50`       | ジョブキューのバッファサイズ             |
 | `--throttled-api-request-size` | -        | SACKEREL_THROTTLED_API_REQUST_QUEUE_SIZE | `0`        | スロットリング対象APIのバッファサイズ     |
 | `--sakura-api-queue-size`      | -        | SACKEREL_SAKURA_API_REQEST_QUEUE_SIZE    | `5`        | さくらのクラウドAPI用キューのバッファサイズ|
 | `--mackerel-api-queue-size`    | -        | SACKEREL_MACKEREL_API_REQEST_QUEUE_SIZE  | `5`        | MackerelAPI用キューのバッファサイズ      |
-                 
+
 ### デバッグ用オプション
 
 これらはデバッグ用にログ出力を制御します。

@@ -63,9 +63,18 @@ func exchangeServerToMackerelHost(mackerelName string, zone string, server *sacl
 	}
 
 	for i, nic := range server.Interfaces {
+
+		ip := ""
+		if nic.Switch != nil {
+			ip = nic.IPAddress
+			if nic.Switch.Scope != sacloud.ESCopeShared {
+				ip = nic.UserIPAddress
+			}
+		}
+
 		p.Interfaces = append(p.Interfaces, mkr.Interface{
 			Name:       fmt.Sprintf("eth%d", i),
-			IPAddress:  nic.IPAddress,
+			IPAddress:  ip,
 			MacAddress: nic.MACAddress,
 		})
 	}
