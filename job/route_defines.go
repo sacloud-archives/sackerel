@@ -126,16 +126,16 @@ func (r *Router) buildRouteDefines() {
 		//--------------------
 		// collect
 		//--------------------
-		"collect-server-metrics":           _MackerelAPIRequest(sacloud.CollectServerMetricsLatestJob),
-		"collect-server-metrics-all":       _MackerelAPIRequest(sacloud.CollectServerMetricsAllJob),
-		"collect-router-metrics":           _MackerelAPIRequest(sacloud.CollectRouterMetricsLatestJob),
-		"collect-router-metrics-all":       _MackerelAPIRequest(sacloud.CollectRouterMetricsAllJob),
-		"collect-loadbalancer-metrics":     _MackerelAPIRequest(sacloud.CollectLoadBalancerMetricsLatestJob),
-		"collect-loadbalancer-metrics-all": _MackerelAPIRequest(sacloud.CollectLoadBalancerMetricsAllJob),
-		"collect-vpcrouter-metrics":        _MackerelAPIRequest(sacloud.CollectVPCRouterMetricsLatestJob),
-		"collect-vpcrouter-metrics-all":    _MackerelAPIRequest(sacloud.CollectVPCRouterMetricsAllJob),
-		"collect-database-metrics":         _MackerelAPIRequest(sacloud.CollectDatabaseMetricsLatestJob),
-		"collect-database-metrics-all":     _MackerelAPIRequest(sacloud.CollectDatabaseMetricsAllJob),
+		"collect-server-metrics":           _SakuraAPIRequest(sacloud.CollectServerMetricsLatestJob),
+		"collect-server-metrics-all":       _SakuraAPIRequest(sacloud.CollectServerMetricsAllJob),
+		"collect-router-metrics":           _SakuraAPIRequest(sacloud.CollectRouterMetricsLatestJob),
+		"collect-router-metrics-all":       _SakuraAPIRequest(sacloud.CollectRouterMetricsAllJob),
+		"collect-loadbalancer-metrics":     _SakuraAPIRequest(sacloud.CollectLoadBalancerMetricsLatestJob),
+		"collect-loadbalancer-metrics-all": _SakuraAPIRequest(sacloud.CollectLoadBalancerMetricsAllJob),
+		"collect-vpcrouter-metrics":        _SakuraAPIRequest(sacloud.CollectVPCRouterMetricsLatestJob),
+		"collect-vpcrouter-metrics-all":    _SakuraAPIRequest(sacloud.CollectVPCRouterMetricsAllJob),
+		"collect-database-metrics":         _SakuraAPIRequest(sacloud.CollectDatabaseMetricsLatestJob),
+		"collect-database-metrics-all":     _SakuraAPIRequest(sacloud.CollectDatabaseMetricsAllJob),
 
 		//--------------------
 		// after collect
