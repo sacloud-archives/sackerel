@@ -18,10 +18,16 @@ var server = &sacloud.Server{
 		{
 			IPAddress:  "192.168.0.1",
 			MACAddress: "00:00::00:00:00:00:01",
+			Switch: &sacloud.Switch{
+				Scope: sacloud.ESCopeShared, //共有セグメント
+			},
 		},
 		{
-			IPAddress:  "192.168.0.2",
-			MACAddress: "00:00::00:00:00:00:02",
+			UserIPAddress: "192.168.0.2",
+			MACAddress:    "00:00::00:00:00:00:02",
+			Switch: &sacloud.Switch{
+				Scope: sacloud.ESCopeUser, // スイッチ
+			},
 		},
 	},
 }
