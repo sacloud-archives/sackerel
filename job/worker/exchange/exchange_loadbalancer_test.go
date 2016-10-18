@@ -1,9 +1,9 @@
 package exchange
 
 import (
+	"github.com/sacloud/libsacloud/sacloud"
 	"github.com/sacloud/sackerel/job/core"
 	"github.com/stretchr/testify/assert"
-	"github.com/yamamoto-febc/libsacloud/sacloud"
 	"reflect"
 	"testing"
 )

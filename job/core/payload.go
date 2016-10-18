@@ -3,7 +3,7 @@ package core
 import (
 	"fmt"
 	mkr "github.com/mackerelio/mackerel-client-go"
-	"github.com/yamamoto-febc/libsacloud/sacloud"
+	"github.com/sacloud/libsacloud/sacloud"
 	"reflect"
 	"strconv"
 	"strings"

@@ -3,8 +3,8 @@ package exchange
 import (
 	"fmt"
 	mkr "github.com/mackerelio/mackerel-client-go"
+	"github.com/sacloud/libsacloud/sacloud"
 	"github.com/sacloud/sackerel/job/core"
-	"github.com/yamamoto-febc/libsacloud/sacloud"
 	"net"
 	"strings"
 )

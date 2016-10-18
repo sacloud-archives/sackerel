@@ -1,9 +1,9 @@
 package exchange
 
 import (
+	"github.com/sacloud/libsacloud/sacloud"
 	"github.com/sacloud/sackerel/job/core"
 	"github.com/stretchr/testify/assert"
-	"github.com/yamamoto-febc/libsacloud/sacloud"
 	"reflect"
 	"testing"
 )
@@ -18,7 +18,7 @@ var router = &sacloud.Internet{
 		TagsType: &sacloud.TagsType{
 			Tags: []string{"tag1", "tag2"},
 		},
-		Subnets: []sacloud.Subnet{
+		Subnets: []sacloud.SwitchSubnet{
 			{
 				IPAddresses: struct {
 					Min string `json:",omitempty"`

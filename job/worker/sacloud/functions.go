@@ -2,8 +2,8 @@ package sacloud
 
 import (
 	"fmt"
+	"github.com/sacloud/libsacloud/api"
 	"github.com/sacloud/sackerel/job/core"
-	"github.com/yamamoto-febc/libsacloud/api"
 	"reflect"
 )
 

@@ -3,8 +3,8 @@ package exchange
 import (
 	"fmt"
 	mkr "github.com/mackerelio/mackerel-client-go"
+	"github.com/sacloud/libsacloud/sacloud"
 	"github.com/sacloud/sackerel/job/core"
-	"github.com/yamamoto-febc/libsacloud/sacloud"
 	"strings"
 )
 
@@ -62,17 +62,19 @@ func exchangeDatabaseToMackerelHost(mackerelName string, zone string, database *
 		}
 	}
 
-	ip := database.Interfaces[0].IPAddress // 共有セグメントに接続されている場合
-	if database.Interfaces[0].Switch.Scope != sacloud.ESCopeShared {
-		// スイッチに接続されている場合
-		ip = database.Remark.Servers[0].(map[string]interface{})["IPAddress"].(string)
-	}
+	if len(database.Interfaces) > 0 && database.Interfaces[0].Switch != nil {
+		ip := database.Interfaces[0].IPAddress // 共有セグメントに接続されている場合
+		if database.Interfaces[0].Switch.Scope != sacloud.ESCopeShared {
+			// スイッチに接続されている場合
+			ip = database.Remark.Servers[0].(map[string]interface{})["IPAddress"].(string)
+		}
 
-	p.Interfaces = append(p.Interfaces, mkr.Interface{
-		Name:       fmt.Sprintf("eth%d", 0),
-		IPAddress:  ip,
-		MacAddress: "",
-	})
+		p.Interfaces = append(p.Interfaces, mkr.Interface{
+			Name:       fmt.Sprintf("eth%d", 0),
+			IPAddress:  ip,
+			MacAddress: "",
+		})
+	}
 
 	return p
 }
