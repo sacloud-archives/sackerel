@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/sacloud/libsacloud/api"
 	"github.com/sacloud/sackerel/job/core"
+	"github.com/sacloud/sackerel/version"
 	"reflect"
 )
 
@@ -26,6 +27,7 @@ func getClient(option *core.Option, zone string) *api.Client {
 
 	client := api.NewClient(o.AccessToken, o.AccessTokenSecret, zone)
 	client.TraceMode = o.TraceMode
+	client.UserAgent = fmt.Sprintf("Sackerel/%s", version.Version)
 
 	return client
 
